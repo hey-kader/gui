@@ -8,6 +8,7 @@ void activate (GtkApplication* app, gpointer user_data) {
 
   GtkWidget *window;
   GtkWidget *button;
+	GtkWidget *buffer;
 	GtkWidget *view;
 
   window = gtk_application_window_new (app);
@@ -18,14 +19,17 @@ void activate (GtkApplication* app, gpointer user_data) {
 	// g_signal_connect (button, "clicked", G_CALLBACK (clicked), NULL);
 
 	char * text = "this is my test text\n";
-	view = gtk_text_buffer_new(NULL);
+	buffer = gtk_text_buffer_new(NULL);
 
-	gtk_text_buffer_set_text(view,text,strlen(text));
+	gtk_text_buffer_set_text(buffer,text,strlen(text));
 	// gtk_window_set_child(GTK_WINDOW (window), button);
 
-	int ch = gtk_text_buffer_get_char_count(view);
+	int ch = gtk_text_buffer_get_char_count(buffer);
 
 	printf ("char count: %d\n",ch);
+
+	view = gtk_text_view_new_with_buffer(buffer);
+	gtk_window_set_child((GTK_WIDGET (window)), view);
 	gtk_window_present(GTK_WINDOW (window));
 
 }
