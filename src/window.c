@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define CHUNK 4096
+
 int fetch_text (char *);
 void clicked (void);
 
@@ -18,7 +20,7 @@ void activate (GtkApplication* app, gpointer user_data) {
 
 	// button = gtk_button_new_with_label (" ");
 	// g_signal_connect (button, "clicked", G_CALLBACK (clicked), NULL);
-	char *t = malloc(sizeof(char *)*2000);
+	char *t = malloc(sizeof(char *)*CHUNK);
 	int l = fetch_text(t);
 	printf("%s\n%d",t,l);
 
@@ -27,7 +29,7 @@ void activate (GtkApplication* app, gpointer user_data) {
 	buffer = gtk_text_buffer_new(NULL);
 
 	gtk_text_buffer_set_text(buffer,text,strlen(text));
-	// gtk_window_set_child(GTK_WINDOW (window), button);
+	//gtk_window_set_child(GTK_WINDOW (window), button);
 
 	int ch = gtk_text_buffer_get_char_count(buffer);
 
