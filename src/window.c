@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+int fetch_text (char *);
 void clicked (void);
 
 void activate (GtkApplication* app, gpointer user_data) {
@@ -17,8 +18,12 @@ void activate (GtkApplication* app, gpointer user_data) {
 
 	// button = gtk_button_new_with_label (" ");
 	// g_signal_connect (button, "clicked", G_CALLBACK (clicked), NULL);
+	char *t = malloc(sizeof(char *)*2000);
+	int l = fetch_text(t);
+	printf("%s\n%d",t,l);
 
-	char * text = "this is my test text\n";
+	//char * text = "this is my test text\n";
+	char * text = t;
 	buffer = gtk_text_buffer_new(NULL);
 
 	gtk_text_buffer_set_text(buffer,text,strlen(text));
@@ -26,8 +31,7 @@ void activate (GtkApplication* app, gpointer user_data) {
 
 	int ch = gtk_text_buffer_get_char_count(buffer);
 
-	printf ("char count: %d\n",ch);
-
+	//printf ("char count: %d\n",ch);
 	view = gtk_text_view_new_with_buffer(buffer);
 	gtk_window_set_child((GTK_WIDGET (window)), view);
 	gtk_window_present(GTK_WINDOW (window));
@@ -35,6 +39,20 @@ void activate (GtkApplication* app, gpointer user_data) {
 }
 void clicked () {
 	printf("no touch!\n");
+}
+
+
+
+int fetch_text (char *text) {
+	char c;
+	int len = 0;
+	FILE * fp = fopen("buffer.txt", "rb");
+	while ((c=fgetc(fp)) != EOF) {
+		text[len++] = c;
+	}
+	text[len] = '\0';
+	fclose(fp);
+	return len;
 }
 
 int main (int argc, char *argv[]) {
